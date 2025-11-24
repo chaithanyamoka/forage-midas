@@ -1,0 +1,17 @@
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
+import com.yourpackage.Transaction;
+
+@Service
+public class TransactionListener {
+
+    @Value("${midas.transactions.topic}")
+    private String topic;
+
+    @KafkaListener(topics = "#{__listener.topic}", groupId = "midas-core-group")
+    public void listen(Transaction transaction) {
+        // For now, just receive the transaction object. Processing comes later.
+        System.out.println("Received transaction: " + transaction);
+    }
+}
